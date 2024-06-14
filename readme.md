@@ -42,6 +42,16 @@ import { cn } from '@/lib/utils' -> import { cn } from '../utils'
 yarn build
 ```
 
+## Pack
+
+```shell
+yarn win64
+```
+
+```shell
+yarn mac
+```
+
 ## Links & Thank
 
 [https://vuejs.org](https://vuejs.org)

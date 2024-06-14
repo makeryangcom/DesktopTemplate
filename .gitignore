@@ -1,0 +1,8 @@
+.idea
+.DS*
+.git
+.vscode
+.DS_Store
+yarn.lock
+node_modules
+release

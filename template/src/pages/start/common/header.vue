@@ -33,7 +33,7 @@
                 </div>
                 <div class="flex items-center no-drag">
                     <HeaderTheme ref="headerTheme" :data="props.data" :base="props.base" />
-                    <Button as="a" href="https://www.baidu.com" target="_blank" class="w-8 h-8" variant="ghost" size="icon">
+                    <Button as="a" href="https://github.com/makeryangcom/DesktopTemplate" target="_blank" class="w-8 h-8" variant="ghost" size="icon">
                         <GithubLogoIcon class="w-4 h-4" />
                     </Button>
                 </div>
@@ -61,7 +61,7 @@
             <Command>
                 <CommandInput placeholder="搜索关键词..." />
                 <CommandEmpty class="text-muted-foreground text-sm">没有相关数据</CommandEmpty>
-                <CommandList @escape-key-down="data.header.search.status = false">
+                <CommandList @escape-key-down="props.data.header.search.status = false">
                     <CommandGroup heading="Links"></CommandGroup>
                 </CommandList>
             </Command>

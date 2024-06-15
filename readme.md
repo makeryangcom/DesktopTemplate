@@ -2,7 +2,6 @@
 
 ⚡ Vue3 + TypeScript + Vite Desktop Template ⚡
 
-
 ## Install
 
 ```shell

@@ -3,7 +3,7 @@ import path from "path";
 import * as FileAPI from "fs";
 import * as Electron from "electron";
 import ElectronDebug from "electron-debug";
-import PathAPI from "path";
+import Package from "../../../package.json";
 
 // Initialize the application window
 let Windows: any = {
@@ -32,11 +32,11 @@ process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 ElectronDebug({showDevTools: false, devToolsMode: "bottom"});
 Electron.app.commandLine.appendSwitch("ignore-certificate-errors", "true");
 Electron.app.commandLine.appendSwitch("disable-gpu", "false");
-Electron.app.commandLine.appendSwitch("--proxy-pac-url", `file://${path.join(__dirname, "../network/chainnet.js")}`);
+Electron.app.commandLine.appendSwitch("--proxy-pac-url", `file://${path.join(__dirname, "../software/chainnet.js")}`);
 // Electron.app.commandLine.appendSwitch("--lang", "en-US");
 
 // Initialize the application's root domain and path
-const application_url: string = Electron.app.isPackaged ? `file://${path.join(__dirname, "../template/index.html")}` : `http://www.dev.com:9090`;
+const application_url: string = Electron.app.isPackaged ? `file://${path.join(__dirname, "../template/index.html")}` : `http://${Package.env.VITE_DEV_SERVER_HOST}:${Package.env.VITE_DEV_SERVER_PORT}`;
 const user_agent: string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Safari/537.36";
 
 function onWindowMain(){
@@ -101,11 +101,11 @@ Electron.app.on("ready", () => {
     console.log("[main:ready]");
     // Copy Net Files
     FileAPI.mkdirSync(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp" : "../../temp"), {recursive: true});
-    const net_files = FileAPI.readdirSync(path.join(__dirname, "../network"), {withFileTypes: true});
+    const net_files = FileAPI.readdirSync(path.join(__dirname, "../software"), {withFileTypes: true});
     for (let item of net_files) {
         if(item.name !== "chainnet.js"){
             let srcPath = path.join(path.join(__dirname, "../software/"), item.name);
-            let destPath = PathAPI.join(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp/" : "../../temp/"), item.name);
+            let destPath = path.join(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp/" : "../../temp/"), item.name);
             FileAPI.copyFileSync(srcPath, destPath);
         }
     }

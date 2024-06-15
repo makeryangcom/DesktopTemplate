@@ -3,14 +3,11 @@ import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
     darkMode: "class",
-    content: ["./src/**/*.{vue,js,ts,jsx,tsx,md}"],
+    content: ["./template/src/**/*.{vue,js,ts,jsx,tsx,md}"],
     theme: {
         container: {
             center: true,
-            padding: "0rem",
-            screens: {
-                "2xl": "1200px",
-            },
+            padding: "0rem"
         },
         extend: {
             fontFamily: {

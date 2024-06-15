@@ -1,18 +1,11 @@
 import {defineConfig} from "vite";
 import {join} from "path";
 import {builtinModules} from "module";
-// @ts-ignore
-import wasm from "vite-plugin-wasm";
-// @ts-ignore
-import topLevelAwait from "vite-plugin-top-level-await";
 import Package from "../../../package.json";
 
 export default defineConfig({
     root: __dirname,
-    plugins: [
-        wasm(),
-        topLevelAwait()
-    ],
+    plugins: [],
     build: {
         outDir: "../../../release/dist/preload",
         emptyOutDir: true,

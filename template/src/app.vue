@@ -10,6 +10,7 @@ import {onBeforeMount, onMounted, onBeforeUnmount, onUnmounted, nextTick, ref} f
 import {useRoute, useRouter} from "vue-router";
 import {useDark} from "@vueuse/core";
 import {useStore} from "./packages/store";
+import {Request} from "./packages/request";
 import {ThemeColors} from "./packages/config";
 import {Toaster, useToast} from "@/lib/toast";
 
@@ -33,7 +34,8 @@ const data: any = ref({
         }
     },
     browser: {
-        toast: toast
+        toast: toast,
+        request: Request,
     }
 });
 

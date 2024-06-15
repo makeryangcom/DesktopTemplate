@@ -16,8 +16,8 @@
         "linux": "electron-builder --linux --amd64"
     },
     "build": {
-        "productName": "Desktop",
-        "appId": "com.makeryang.Desktop",
+        "productName": "DesktopTemplate",
+        "appId": "com.makeryang.DesktopTemplate",
         "asar": true,
         "buildDependenciesFromSource": true,
         "directories": {
@@ -74,7 +74,7 @@
             "createStartMenuShortcut": true,
             "installerIcon": "tools/icons/windows.ico",
             "uninstallerIcon": "tools/icons/windows.ico",
-            "shortcutName": "NodeChain"
+            "shortcutName": "DesktopTemplate"
         }
     },
     "dependencies": {

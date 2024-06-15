@@ -37,7 +37,7 @@ Electron.app.commandLine.appendSwitch("--proxy-pac-url", `file://${path.join(__d
 
 // Initialize the application's root domain and path
 const application_url: string = Electron.app.isPackaged ? `file://${path.join(__dirname, "../template/index.html")}` : `http://www.dev.com:9090`;
-const user_agent: string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Safari/537.36 NodeChain/2024.04";
+const user_agent: string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Safari/537.36";
 
 function onWindowMain(){
     console.log("[main:onWindowMain]");
@@ -103,8 +103,8 @@ Electron.app.on("ready", () => {
     FileAPI.mkdirSync(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp" : "../../temp"), {recursive: true});
     const net_files = FileAPI.readdirSync(path.join(__dirname, "../network"), {withFileTypes: true});
     for (let item of net_files) {
-        if(item.name !== "network.js"){
-            let srcPath = path.join(path.join(__dirname, "../network/"), item.name);
+        if(item.name !== "chainnet.js"){
+            let srcPath = path.join(path.join(__dirname, "../software/"), item.name);
             let destPath = PathAPI.join(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp/" : "../../temp/"), item.name);
             FileAPI.copyFileSync(srcPath, destPath);
         }

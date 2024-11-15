@@ -11,11 +11,7 @@ git clone git@github.com:makeryangcom/DesktopTemplate.git
 ## Development
 
 ```shell
-yarn
-```
-
-```shell
-yarn dev
+yarn && yarn dev
 ```
 
 ## Build

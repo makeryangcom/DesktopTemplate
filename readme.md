@@ -1,6 +1,6 @@
 # DesktopTemplate [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-⚡ Vue3 + TypeScript + Vite Desktop Template ⚡
+⚡ Vue3 + TypeScript + Vite + Pinia + Electron Desktop Template ⚡
 
 ## Install
 

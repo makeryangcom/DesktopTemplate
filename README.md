@@ -1,6 +1,6 @@
 # DesktopTemplate [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-⚡ Vue3 + TypeScript + Vite + Pinia + Electron Desktop Template ⚡
+⚡ Vue3 + TypeScript + Vite + Pinia + Desktop Template ⚡
 
 ## Install
 
@@ -37,6 +37,8 @@ yarn mac
 ## Links & Thank
 
 [https://vuejs.org](https://vuejs.org)
+
+[https://pinia.vuejs.org](https://pinia.vuejs.org)
 
 [https://www.vite.org](https://www.vite.org)
 

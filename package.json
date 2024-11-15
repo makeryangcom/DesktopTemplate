@@ -1,0 +1,125 @@
+{
+    "name": "desktop_template",
+    "title": "DesktopTemplate",
+    "version": "1.0.0",
+    "author": "MakerYang <www.makeryang.com>",
+    "description": "www.makeryang.com",
+    "license": "MIT",
+    "type": "module",
+    "main": "release/dist/main/index.cjs",
+    "scripts": {
+        "dev": "electron-rebuild -f -w && node --max-old-space-size=6096 tools/script/build.mjs && node --max-old-space-size=6096 tools/script/index.mjs && node tools/script/watch.mjs",
+        "build": "electron-rebuild -f -w && rimraf release && node --max-old-space-size=6096 tools/script/build.mjs && node --max-old-space-size=6096 tools/script/index.mjs",
+        "win64": "electron-builder --win --x64",
+        "win32": "electron-builder --win --ia32",
+        "mac": "electron-builder --mac --x64",
+        "linux": "electron-builder --linux --amd64"
+    },
+    "build": {
+        "productName": "DesktopTemplate",
+        "appId": "com.makeryang.DesktopTemplate",
+        "asar": true,
+        "buildDependenciesFromSource": true,
+        "directories": {
+            "output": "release/${version}"
+        },
+        "fileAssociations": [],
+        "publish": [
+            {
+                "provider": "generic",
+                "url": ""
+            }
+        ],
+        "files": [
+            "release/dist"
+        ],
+        "dmg": {
+            "contents": [
+                {
+                    "x": 410,
+                    "y": 150,
+                    "type": "link",
+                    "path": "/Applications"
+                },
+                {
+                    "x": 130,
+                    "y": 150,
+                    "type": "file"
+                }
+            ]
+        },
+        "mac": {
+            "icon": "tools/icons/macos.icns",
+            "artifactName": "${productName}.${ext}"
+        },
+        "win": {
+            "icon": "tools/icons/windows.ico",
+            "artifactName": "${productName}.${ext}",
+            "target": "nsis",
+            "requestedExecutionLevel": "highestAvailable"
+        },
+        "linux": {
+            "icon": "tools/icons/icon.png",
+            "target": [
+                "AppImage"
+            ],
+            "artifactName": "${productName}.${ext}"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": true,
+            "allowElevation": true,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "installerIcon": "tools/icons/windows.ico",
+            "uninstallerIcon": "tools/icons/windows.ico",
+            "shortcutName": "DesktopTemplate"
+        }
+    },
+    "dependencies": {
+        "@fingerprintjs/fingerprintjs": "^4.5.1",
+        "@radix-icons/vue": "^1.0.0",
+        "@tanstack/vue-table": "^8.20.5",
+        "axios": "^1.7.7",
+        "class-variance-authority": "^0.7.0",
+        "devicon": "^2.16.0",
+        "electron-debug": "^3.2.0",
+        "electron-devtools-installer": "^3.2.0",
+        "electron-localstorage": "^1.0.5",
+        "electron-updater": "^6.3.9",
+        "lucide-vue-next": "^0.456.0",
+        "pinia": "^2.2.6",
+        "radix-vue": "^1.9.9",
+        "rimraf": "^6.0.1",
+        "simple-icons": "^13.16.0",
+        "vee-validate": "^4.14.7",
+        "vue": "^3.5.12",
+        "vue-i18n": "^10.0.4",
+        "vue-router": "^4.4.5"
+    },
+    "devDependencies": {
+        "@tsconfig/node22": "^22.0.0",
+        "@types/node": "^22.9.0",
+        "@vitejs/plugin-vue": "^5.1.4",
+        "@vue/tsconfig": "^0.5.1",
+        "autoprefixer": "^10.4.20",
+        "electron": "^33.2.0",
+        "electron-builder": "^25.1.8",
+        "electron-rebuild": "^3.2.9",
+        "postcss": "^8.4.41",
+        "tailwind-merge": "^2.5.2",
+        "tailwindcss": "^3.4.14",
+        "tailwindcss-animate": "^1.0.7",
+        "terser": "^5.36.0",
+        "typescript": "~5.6.3",
+        "vite": "^5.4.10",
+        "vite-plugin-electron": "^0.28.8",
+        "vite-plugin-vue-devtools": "^7.5.4",
+        "vue-tsc": "^2.1.10"
+    },
+    "env": {
+        "VITE_DEV_SERVER_HOST": "localhost",
+        "VITE_DEV_SERVER_PORT": 9090
+    }
+}

@@ -4,6 +4,7 @@
 .vscode
 .DS_Store
 yarn.lock
+vite.config.ts.timestamp*
 node_modules
 release/*
 !release/.gitkeep

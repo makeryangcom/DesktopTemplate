@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: "geist-sans";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../fonts/geist/geist-sans.woff2") format("woff2");
+}

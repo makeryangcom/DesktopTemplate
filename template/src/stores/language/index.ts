@@ -19,7 +19,7 @@ import en from "./en";
 import zh from './zh';
 
 export const useLanguageStore = defineStore("language", ()=>{
-    const $local_storage_name = "armcnc:language";
+    const $local_storage_name = "site:language";
     const $Store = ref({
         local_storage_name: $local_storage_name,
         api: $I18n.createI18n({

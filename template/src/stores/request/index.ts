@@ -20,8 +20,8 @@ import { ref } from "vue";
 export const useRequestStore = defineStore("request", ()=>{
     const $Store = ref({
         host: "",
-        referer: "geekllm.com",
-        local_storage_name: "geekllm:login:token",
+        referer: "site.com",
+        local_storage_name: "site:login:token",
         request: Axios.create({
             baseURL: "",
             timeout: 60000,

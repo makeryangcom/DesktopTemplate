@@ -20,7 +20,7 @@ import { type Theme, themes } from "../../packages/york/themes";
 
 export const useThemeStore = defineStore("theme", ()=>{
 
-    const $local_storage_name = "armcnc:";
+    const $local_storage_name = "site:";
 
     type $Color = | "zinc" | "slate" | "stone" | "gray" | "neutral" | "red" | "rose" | "orange" | "green" | "blue" | "yellow" | "violet";
 

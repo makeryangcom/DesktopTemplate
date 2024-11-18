@@ -14,8 +14,8 @@
 
 /** @type {import("tailwindcss").Config} */
 
-import defaultTheme from "tailwindcss/defaultTheme";
 import tailwindcssAnimate from "tailwindcss-animate";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
     darkMode: "class",

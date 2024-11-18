@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {type HTMLAttributes, computed} from "vue";
-import {AccordionHeader, AccordionTrigger, type AccordionTriggerProps} from "radix-vue";
 import { ChevronDownIcon } from "@radix-icons/vue";
-import {Merge} from "../utils.ts";
+import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from "radix-vue";
+import { type HTMLAttributes, computed } from "vue";
+import { Merge } from "../utils.ts";
 
 const props = defineProps<AccordionTriggerProps & { class?: HTMLAttributes['class'] }>()
 

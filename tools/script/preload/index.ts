@@ -12,25 +12,45 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { ipcRenderer, shell } from "electron";
+import File from "fs";
 import Os from "os";
 import Path from "path";
-import File from "fs";
-import {ipcRenderer} from "electron";
-import * as Config from "../../../package.json";
+import * as Package from "../../../package.json";
 
 (window as any).base = {
-    os: Os,
+    name: Package.name,
+    version: Package.version,
+    author: Package.author,
+    versions: {
+        node: () => process.versions.node,
+        chrome: () => process.versions.chrome,
+        electron: () => process.versions.electron
+    },
+    paths: {
+        app: (process: any)=> {
+            return Path.join(__dirname, (process.env["VITE_DEV_SERVER_HOST"] !== "127.0.0.1" ? "./../../../../" : "../../"));
+        },
+        roaming: (process: any)=> {
+            const path_temp= (Os.platform() === "win32" ? process.env["APPDATA"] + "" : process.env["HOME"] + "");
+            return Path.join(path_temp, "./");
+        },
+        home: (process: any)=> {
+            const path_temp= (Os.platform() === "win32" ? (process.env["HOMEDRIVE"]  + "" + process.env["HOMEPATH"]) : process.env["HOME"] + "");
+            return Path.join(path_temp, "./");
+        },
+        temp: (process: any)=> {
+            return Path.join(Os.tmpdir(), "./");
+        }
+    },
+    environment: (process: any) => {
+        return process.env["VITE_DEV_SERVER_HOST"] !== "127.0.0.1" ? "produce" : "develop"
+    },
+    platform: () => Os.platform(),
+    ipc: ipcRenderer,
+    browser: shell,
+    file: File,
     path: Path,
     process: process,
-    platform: Os.platform(), //darwin、linux、win32
-    config: Config,
-    file: File,
-    ipc: ipcRenderer,
-    lang: {
-        t: false,
-        locale: false
-    },
-    window: {
-        max: false
-    },
+    os: Os,
 }

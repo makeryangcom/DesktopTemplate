@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-import path from "path";
-import {fileURLToPath, URL} from "node:url";
-import {defineConfig} from "vite";
 import vue from "@vitejs/plugin-vue";
-import tailwind from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import { fileURLToPath, URL } from "node:url";
+import tailwind from "tailwindcss";
+import { defineConfig } from "vite";
 import vueDevTools from "vite-plugin-vue-devtools";
 import Package from "../package.json";
 
@@ -39,9 +37,10 @@ export default defineConfig(({mode})=> ({
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "true",
         __APP_NAME__: JSON.stringify(Package.title),
 		__APP_VERSION__: JSON.stringify(Package.version),
+        __VITE_DEV_HOST__: JSON.stringify(Package.env.VITE_DEV_HOST),
     },
     esbuild: {
-        drop: mode === "production" ? ["console", "debugger"] : [],
+        drop: mode === "production" ? ["debugger"] : [],
     },
     plugins: [
         vue(
@@ -58,14 +57,6 @@ export default defineConfig(({mode})=> ({
     server: {
         host: Package.env.VITE_DEV_SERVER_HOST,
         port: Package.env.VITE_DEV_SERVER_PORT,
-        proxy: {
-            "/backend": {
-                target: "https://backend.domain.com",
-                secure: false,
-                changeOrigin: true,
-                rewrite: (path: any) => path.replace(/^\/backend/, '')
-            },
-        }
     },
     css: {
         postcss: {
@@ -112,4 +103,4 @@ export default defineConfig(({mode})=> ({
             "@": fileURLToPath(new URL("./src", import.meta.url))
         }
     }
-}))
+}));

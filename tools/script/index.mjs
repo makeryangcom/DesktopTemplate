@@ -15,6 +15,8 @@
 import * as FileAPI from "fs";
 import PathAPI from "path";
 
+FileAPI.writeFileSync("release/.gitkeep", "");
+
 const Index = FileAPI.readFileSync("release/dist/template/index.html", {encoding: "utf8"});
 const NewIndex = Index.replace(/.\/monacoeditorwork/g, '"monacoeditorwork');
 FileAPI.writeFileSync("release/dist/template/index.html", NewIndex);

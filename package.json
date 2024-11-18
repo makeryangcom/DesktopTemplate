@@ -3,7 +3,7 @@
     "title": "DesktopTemplate",
     "version": "1.0.0",
     "author": "MakerYang <www.makeryang.com>",
-    "description": "www.makeryang.com",
+    "description": "DesktopTemplate",
     "license": "MIT",
     "type": "module",
     "main": "release/dist/main/index.cjs",
@@ -13,7 +13,8 @@
         "win64": "electron-builder --win --x64",
         "win32": "electron-builder --win --ia32",
         "mac": "electron-builder --mac --x64",
-        "linux": "electron-builder --linux --amd64"
+        "linux": "electron-builder --linux --amd64",
+        "postinstall": "electron-builder install-app-deps"
     },
     "build": {
         "productName": "DesktopTemplate",

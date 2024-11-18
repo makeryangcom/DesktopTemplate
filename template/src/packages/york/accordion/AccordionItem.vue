@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {type HTMLAttributes, computed} from "vue";
-import {AccordionItem, type AccordionItemProps, useForwardProps} from "radix-vue";
-import {Merge} from "../utils.ts";
+import { AccordionItem, type AccordionItemProps, useForwardProps } from "radix-vue";
+import { type HTMLAttributes, computed } from "vue";
+import { Merge } from "../utils.ts";
 
 const props = defineProps<AccordionItemProps & { class?: HTMLAttributes['class'] }>()
 

@@ -12,4 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export {useBaseStore} from "./base";
+export { useBaseStore } from "./base";
+export { useLanguageStore } from "./language";
+export { useRequestStore } from "./request";
+export { useThemeStore } from "./theme";
+

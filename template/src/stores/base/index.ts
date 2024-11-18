@@ -12,17 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {defineStore} from "pinia";
-import {ref} from "vue";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import { useRoute as $useRoute, useRouter as $useRouter } from "vue-router";
 
 export const useBaseStore = defineStore("base", ()=>{
-    const store = ref({
+    const $Store = ref({
         count: 0
     });
 
-    function $reset(){
-        store.value.count = 0;
+    function $GetPlatform(){
+        const userAgent = (navigator as any).userAgent;
+        if (userAgent.includes("Windows")) {
+            return "Windows";
+        }
+        if (userAgent.includes("Mac")) {
+            return "MacOS";
+        }
+        if (userAgent.includes("Linux")) {
+            return "Linux";
+        }
+        return "-";
     }
 
-    return {store, $reset}
-})
+    function $RemoveTrim(value: string): string {
+        return (value.replace(/[\n\r]/g, "")).trim();
+    }
+    
+    function $CheckEmail(email: string): boolean {
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return regex.test(email);
+    }
+
+    function $Reset(){
+        $Store.value.count = 0;
+    }
+
+    return {$Store, $useRoute, $useRouter, $GetPlatform, $RemoveTrim, $CheckEmail, $Reset}
+});

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {createRouter, createWebHashHistory } from "vue-router";
-import Index from "../../views/index.vue";
+import { createRouter, createWebHashHistory } from "vue-router";
+import Index from "../views/index.vue";
 
 const routes: any = [
     {

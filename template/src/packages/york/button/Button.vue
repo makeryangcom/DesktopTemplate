@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type {HTMLAttributes} from "vue";
-import {Primitive, type PrimitiveProps} from "radix-vue";
-import {type ButtonVariants, buttonVariants} from ".";
-import {Merge} from "../utils.ts";
+import { Primitive, type PrimitiveProps } from "radix-vue";
+import type { HTMLAttributes } from "vue";
+import { type ButtonVariants, buttonVariants } from ".";
+import { Merge } from "../utils.ts";
 
 interface Props extends PrimitiveProps {
     variant?: ButtonVariants["variant"]

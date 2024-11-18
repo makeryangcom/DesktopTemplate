@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import os from "os";
-import path from "path";
-import * as FileAPI from "fs";
 import * as Electron from "electron";
 import ElectronDebug from "electron-debug";
+import * as FileAPI from "fs";
+import os from "os";
+import path from "path";
 import Package from "../../../package.json";
 
 // Initialize the application window
@@ -46,11 +46,11 @@ process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 ElectronDebug({showDevTools: false, devToolsMode: "bottom"});
 Electron.app.commandLine.appendSwitch("ignore-certificate-errors", "true");
 Electron.app.commandLine.appendSwitch("disable-gpu", "false");
-// Electron.app.commandLine.appendSwitch("--proxy-pac-url", `file://${path.join(__dirname, "../software/chainnet.js")}`);
-// Electron.app.commandLine.appendSwitch("--lang", "en-US");
+Electron.app.commandLine.appendSwitch("--proxy-pac-url", `file://${path.join(__dirname, "../software/command.js")}`);
+Electron.app.commandLine.appendSwitch("--lang", "zh_CN"); // zh_CN or en-US
 
 // Initialize the application's root domain and path
-const application_url: string = Electron.app.isPackaged ? `file://${path.join(__dirname, "../template/index.html")}` : `http://${Package.env.VITE_DEV_SERVER_HOST}:${Package.env.VITE_DEV_SERVER_PORT}`;
+const base_url: string = Electron.app.isPackaged ? `file://${path.join(__dirname, "../template/index.html")}` : `http://${Package.env.VITE_DEV_SERVER_HOST}:${Package.env.VITE_DEV_SERVER_PORT}`;
 const user_agent: string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.215 Safari/537.36";
 
 function onWindowMain(){
@@ -80,12 +80,33 @@ function onWindowMain(){
     });
 
     Windows.Main.loadURL(
-        application_url + "#/?preload=" + path.join(__dirname, "../preload/index.cjs"),
+        base_url + "#/?preload=" + path.join(__dirname, "../preload/index.cjs"),
         {
             "userAgent": user_agent
         }
     ).then((res: any) => {
-        console.log("[main:load]", res);
+        console.log("[main:load]", res, Electron.app.isPackaged);
+        if(!Windows.UserData.Quit){
+            const tray_development = os.platform() === "darwin" ? "tools/icons/macos.png" : "tools/icons/windows.ico";
+            const tray_production = os.platform() === "darwin" ? path.join(__dirname, "../icons/macos.png") : path.join(__dirname, "../icons/windows.ico");
+            const tray_icon = Electron.app.isPackaged ? new Electron.Tray(Electron.nativeImage.createFromPath(tray_production)) : new Electron.Tray(Electron.nativeImage.createFromPath(tray_development));
+            const tray_menu = Electron.Menu.buildFromTemplate([
+                {
+                    label: "退出软件",
+                    click: function () {
+                        Windows.Main.close();
+                        Electron.app.quit();
+                    }
+                }
+            ]);
+            tray_icon.setContextMenu(tray_menu);
+            tray_icon.setToolTip(Package.title);
+            tray_icon.setTitle(Package.title);
+            tray_icon.on("click",function(event: any){});
+            tray_icon.on("double-click", function () {
+                Windows.Main.show();
+            });   
+        }
     });
 
     Windows.Main.on("ready-to-show", function () {
@@ -102,11 +123,11 @@ function onWindowMain(){
     });
 
     Electron.globalShortcut.register("Shift+Alt+L", () => {
-        Windows.Main.webContents.send("message", {type: "switch-language"});
+        Windows.Main.webContents.send("message", {type: "main:switch:language"});
     });
 
     Electron.globalShortcut.register("Shift+Alt+S", () => {
-        Windows.Main.webContents.send("message", {type: "display-sleep", status: !Windows.UserData.Sleep});
+        Windows.Main.webContents.send("message", {type: "main:display:sleep", status: !Windows.UserData.Sleep});
     });
 }
 
@@ -117,11 +138,9 @@ Electron.app.on("ready", () => {
     FileAPI.mkdirSync(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp" : "../../temp"), {recursive: true});
     const net_files = FileAPI.readdirSync(path.join(__dirname, "../software"), {withFileTypes: true});
     for (let item of net_files) {
-        if(item.name !== "chainnet.js"){
-            let srcPath = path.join(path.join(__dirname, "../software/"), item.name);
-            let destPath = path.join(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp/" : "../../temp/"), item.name);
-            FileAPI.copyFileSync(srcPath, destPath);
-        }
+        let srcPath = path.join(path.join(__dirname, "../software/"), item.name);
+        let destPath = path.join(path.join(__dirname, Electron.app.isPackaged ? "../../../../temp/" : "../../temp/"), item.name);
+        FileAPI.copyFileSync(srcPath, destPath);
     }
 });
 
@@ -153,32 +172,32 @@ Electron.app.whenReady().then(() => {
     Electron.powerMonitor.on("suspend", () => {
         console.log("[main:powerMonitor:suspend]");
         if (Windows.Main) {
-            Windows.Main.webContents.send("message", {type: "power-lock"});
+            Windows.Main.webContents.send("message", {type: "main:power:lock"});
         }
     });
     Electron.powerMonitor.on("resume", () => {
         console.log("[main:powerMonitor:resume]");
         if (Windows.Main) {
-            Windows.Main.webContents.send("message", {type: "power-unlock"});
+            Windows.Main.webContents.send("message", {type: "main:power:unlock"});
         }
     });
     Electron.powerMonitor.on("lock-screen", () => {
         console.log("[main:powerMonitor:lock-screen]");
         if (Windows.Main) {
-            Windows.Main.webContents.send("message", {type: "screen-lock"});
+            Windows.Main.webContents.send("message", {type: "main:screen:lock"});
         }
     });
     Electron.powerMonitor.on("unlock-screen", () => {
         console.log("[main:powerMonitor:unlock-screen]");
         if (Windows.Main) {
-            Windows.Main.webContents.send("message", {type: "screen-unlock"});
+            Windows.Main.webContents.send("message", {type: "main:screen:unlock"});
         }
     });
 });
 
 // Listen for main process messages
 Electron.ipcMain.on("message", (event: any, args: any) => {
-    if(args.type === "select_folder_path"){
+    if(args.type === "template:select:folder:path"){
         if(args.callback && args.callback === "local_path"){
             Electron.dialog.showOpenDialog(Windows.Main, {
                 properties: ["openDirectory"]
@@ -187,7 +206,7 @@ Electron.ipcMain.on("message", (event: any, args: any) => {
             });
         }
     }
-    if(args.type === "header-right-button"){
+    if(args.type === "template:header:right:button"){
         if(args.data === "close"){
             if(!Windows.UserData.Quit){
                 Windows.Main.hide();
@@ -206,15 +225,17 @@ Electron.ipcMain.on("message", (event: any, args: any) => {
                 Windows.Main.maximize();
             }
         }
+    }
+    if(args.type === "template:window:resize"){
         if(args.data === "resize"){
             if(Windows.Main.isMaximized()){
-                event.sender.send("message", {type: "header-right-button", data: "max"});
+                event.sender.send("message", {type: "main:window:resize", data: "max"});
             }else{
-                event.sender.send("message", {type: "header-right-button", data: "restore"});
+                event.sender.send("message", {type: "main:window:resize", data: "restore"});
             }
         }
     }
-    if(args.type === "display-sleep"){
+    if(args.type === "template:display:sleep"){
         if(args.status){
             Windows.UserData.Sleep = Electron.powerSaveBlocker.start("prevent-display-sleep");
         }else{
@@ -225,10 +246,10 @@ Electron.ipcMain.on("message", (event: any, args: any) => {
         }
         console.log("[main:display:sleep]", Windows.UserData.Sleep);
     }
-    if(args.type === "updater"){
+    if(args.type === "template:updater"){
         console.log("[main:updater]");
     }
-    if(args.type === "quit"){
+    if(args.type === "template:quit"){
         console.log("[main:quit]");
     }
 });

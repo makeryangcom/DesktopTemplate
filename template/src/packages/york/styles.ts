@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export function RemoveTrim(value: string): string {
-    return (value.replace(/[\n\r]/g, "")).trim();
-}
-
-export function CheckEmail(email: string): boolean {
-    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regex.test(email);
-}
+export const styles = [
+    {
+      name: 'default',
+      label: 'Default',
+    },
+    {
+      name: 'new-york',
+      label: 'New York',
+    },
+  ] as const
+  
+  export type Style = typeof styles[number]['name']

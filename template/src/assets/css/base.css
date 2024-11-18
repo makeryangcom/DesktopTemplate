@@ -44,7 +44,9 @@ body {
     height: 100dvh;
 }
 
-.page-main{
-    width: 1280px;
-    max-width: 1280px;
+.drag{
+    -webkit-app-region: drag;
+}
+.no-drag{
+    -webkit-app-region: no-drag;
 }

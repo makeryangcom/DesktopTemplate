@@ -6,44 +6,71 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onBeforeMount, onMounted, onBeforeUnmount, onUnmounted, nextTick} from "vue";
-import {useBaseStore} from "./stores";
-import {useRoute, useRouter} from "vue-router";
-import {Request, useI18n, Format} from "./packages";
-import {Toaster, useToast} from "./packages/york";
+import { nextTick, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
+import { Toaster, useToast } from "./packages/york";
+import { useBaseStore, useLanguageStore, useRequestStore, useThemeStore } from "./stores";
 
-const i18n = useI18n();
-const $route = useRoute();
-const $router = useRouter();
+const base = useBaseStore();
+const language = useLanguageStore();
+const request = useRequestStore();
+const theme = useThemeStore();
 const {toast} = useToast();
-const baseStore = useBaseStore();
 
 const data: any = ref({
-    route: $route,
-    router: $router,
-    language: {
-        current: (navigator as any).language,
-        locale: i18n.locale,
-        t: i18n.t,
-        f: Format
+    base: {
+        route: base.$useRoute,
+        router: base.$useRouter,
+        api: base,
     },
-    request: Request,
-    toast: toast,
-    base: baseStore
+    tools: {
+        language: {
+            current: (navigator as any).language,
+            locale: language.$I18n.useI18n().locale,
+            t: language.$I18n.useI18n().t,
+            f: language.$Format,
+            api: language
+        },
+        request: request.$Request,
+        toast: toast
+    },
+    window: {
+        max: false
+    },
+    theme: {
+        api: theme,
+    },
+    header: {
+        search: {
+            status: false
+        }
+    },
 });
+
+function onInitAndListenerResize(){
+    (window as any).base.ipc.send("message", {type: "template:window:resize", data: "resize"});
+    window.addEventListener("resize", function() {
+        (window as any).base.ipc.send("message", {type: "template:window:resize", data: "resize"});
+    });
+}
 
 onBeforeMount(() => {});
 
 onMounted(() => {
+    document.documentElement.style.setProperty("--radius", `${data.value.theme.api.radius}rem`);
+    document.documentElement.classList.add(`theme-${data.value.theme.api.theme}`);
     nextTick(() => {
-        console.log("[app]", data.value);
-        if(data.value.language.locale === "null"){
-            if(data.value.language.current === "zh-CN"){
-                data.value.language.locale = "en";
+        console.log("author:" + (window as any).base.author, "language:" + data.value.tools.language.current);
+        console.log((window as any).base.name + ":" + (window as any).base.version  + " Platform:" + (window as any).base.platform() + " Electron:" + (window as any).base.versions.electron() + " Chromium:" + (window as any).base.versions.chrome() + " Node:" + (window as any).base.versions.node());
+        console.log("app:" + (window as any).base.paths.app(process) + " roaming:" + (window as any).base.paths.roaming(process) + " home:" + (window as any).base.paths.home(process) + " temp:" + (window as any).base.paths.temp(process));
+        console.log("[template:app]", data.value);
+        if(data.value.tools.language.locale === "null"){
+            if(data.value.tools.language.current === "zh-CN"){
+                data.value.tools.language.locale = "zh";
             }else{
-                data.value.language.locale = "en";
+                data.value.tools.language.locale = "en";
             }
         }
+        onInitAndListenerResize();
     });
 });
 

@@ -1,4 +1,4 @@
-// Copyright 2024 GEEKROS, Inc.
+// Copyright 2024 MakerYang, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,5 +13,23 @@
 // limitations under the License.
 
 export default {
-
+    base: {
+        click: "Click",
+        reset: "Reset"
+    },
+    header: {
+        search: {
+            placeholder: "search keywords..."
+        },
+        theme: {
+            title: "Custom Theme",
+            describe: "Choose your preferred style and color",
+            color: "Color",
+            radius: "Radius",
+            style: "Style"
+        }
+    },
+    common: {
+        no_relevant_data_available: "No relevant data available"
+    }
 }
